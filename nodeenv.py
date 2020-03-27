@@ -838,21 +838,23 @@ def install_activate(env_dir, opt):
     """
     Install virtual environment activation script
     """
+    files = {
+        'activate': ACTIVATE_SH,
+    }
     if is_WIN:
-        files = {
+        files.update({
             'activate.bat': ACTIVATE_BAT,
             "deactivate.bat": DEACTIVATE_BAT,
             "Activate.ps1": ACTIVATE_PS1
-        }
+        })
         bin_dir = join(env_dir, 'Scripts')
         shim_node = join(bin_dir, "node.exe")
         shim_nodejs = join(bin_dir, "nodejs.exe")
     else:
-        files = {
-            'activate': ACTIVATE_SH,
+        files.update({
             'activate.fish': ACTIVATE_FISH,
             'shim': SHIM
-        }
+        })
         bin_dir = join(env_dir, 'bin')
         shim_node = join(bin_dir, "node")
         shim_nodejs = join(bin_dir, "nodejs")
