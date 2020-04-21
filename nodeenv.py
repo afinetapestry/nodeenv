@@ -42,7 +42,7 @@ except ImportError:  # pragma: no cover (py3 only)
 
 from pkg_resources import parse_version
 
-nodeenv_version = '1.3.5'
+nodeenv_version = '1.3.6'
 
 join = os.path.join
 abspath = os.path.abspath
@@ -845,15 +845,17 @@ def install_activate(env_dir, opt):
         files.update({
             'activate.bat': ACTIVATE_BAT,
             "deactivate.bat": DEACTIVATE_BAT,
-            "Activate.ps1": ACTIVATE_PS1
+            "Activate.ps1": ACTIVATE_PS1,
+            "npm-exec.bat": NPM_EXEC_BAT
         })
-        bin_dir = join(env_dir, 'Scripts')
+        bin_dir = join(env_dir, 'bin')
         shim_node = join(bin_dir, "node.exe")
         shim_nodejs = join(bin_dir, "nodejs.exe")
     else:
         files.update({
             'activate.fish': ACTIVATE_FISH,
-            'shim': SHIM
+            'shim': SHIM,
+            'npm-exec': NPM_EXEC
         })
         bin_dir = join(env_dir, 'bin')
         shim_node = join(bin_dir, "node")
@@ -1446,6 +1448,18 @@ if [ -r "$1" ]; then
 fi
 
 exec $(dirname "$0")/node.exe "$@"
+"""
+
+NPM_EXEC = """#!/bin/sh
+exe=$1
+shift
+"$(npm bin)/$exe" $*
+"""
+
+NPM_EXEC_BAT = """@echo off
+set cmd="npm bin"
+FOR /F "tokens=*" %%i IN (' %cmd% ') DO SET modules=%%i
+"%modules%"\%*
 """
 
 if __name__ == '__main__':
