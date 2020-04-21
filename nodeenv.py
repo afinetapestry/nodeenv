@@ -610,7 +610,7 @@ def copy_node_from_prebuilt(env_dir, src_dir, node_version):
     logger.info('.', extra=dict(continued=True))
     prefix = get_binary_prefix()
     if is_WIN:
-        dest = join(env_dir, 'Scripts')
+        dest = join(env_dir, 'bin')
         mkdir(dest)
     elif is_CYGWIN:
         dest = join(env_dir, 'bin')
@@ -775,7 +775,7 @@ def install_npm_win(env_dir, src_dir, opt):
     npm_url = 'https://github.com/npm/cli/archive/v%s.zip' % opt.npm
     npm_contents = io.BytesIO(urlopen(npm_url).read())
 
-    bin_path = join(env_dir, 'Scripts')
+    bin_path = join(env_dir, 'bin')
     node_modules_path = join(bin_path, 'node_modules', 'npm')
 
     if os.path.exists(node_modules_path):
@@ -1107,7 +1107,7 @@ if defined _OLD_VIRTUAL_PATH (
 ) else (
     set "_OLD_VIRTUAL_PATH=%PATH%"
 )
-set "PATH=%NODE_VIRTUAL_ENV%\Scripts;%PATH%"
+set "PATH=%NODE_VIRTUAL_ENV%\bin;%PATH%"
 :END
 
 """
@@ -1174,7 +1174,7 @@ if (Test-Path env:NODE_PATH) {
 
 # Add the venv to the PATH
 copy-item env:PATH env:_OLD_VIRTUAL_PATH
-$env:PATH = "$env:NODE_VIRTUAL_ENV\Scripts;$env:PATH"
+$env:PATH = "$env:NODE_VIRTUAL_ENV\bin;$env:PATH"
 """
 
 ACTIVATE_SH = r"""
